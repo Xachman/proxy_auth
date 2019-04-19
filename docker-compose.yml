@@ -1,0 +1,29 @@
+version: '3.1'
+services:
+  app:
+    build: .
+    volumes:
+     - ./:/app
+     - /app/node_modules
+    ports:
+      - 6005:8000
+    links:
+      - postgres:postgres
+  nginx:
+    image: nginx
+    ports:
+      - 6006:80
+    links:
+      - app:authhost
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+  postgres:
+    image: postgres:9.4
+    ports:
+      - 5434:5432
+    volumes:
+      - ./dumps/:/dumps/
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: django
+      POSTGRES_DB: swiveldb
