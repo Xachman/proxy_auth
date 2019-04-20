@@ -7,8 +7,6 @@ services:
      - /app/node_modules
     ports:
       - 6005:8000
-    links:
-      - postgres:postgres
   nginx:
     image: nginx
     ports:
