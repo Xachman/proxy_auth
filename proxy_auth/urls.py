@@ -14,19 +14,37 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic.base import TemplateView # new
+from django.contrib.auth.decorators import login_required
 
+
+import logging
+logging.basicConfig(
+    level = logging.DEBUG,
+    format = '%(name)s %(levelname)s %(message)s',
+)
 
 def validate(request):
+    if request.user.is_authenticated:
+        return HttpResponse("yo", status=200)
     return HttpResponse("yo", status=401)
 
 def home(request):
     return HttpResponse("home")
 
+def login(request):
+    logger = logging.getLogger("login")
+    logger.info('login')
+    return HttpResponse("login")
+
+
 urlpatterns = [
-    path('', home),
+    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('login/', login),
     path('validate/', validate),
     path('admin/', admin.site.urls),
+    path('dashboard/', include('django.contrib.auth.urls'))
 ]

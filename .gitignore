@@ -1,5 +1,4 @@
 db/
-/proxy_auth/settings.py
 __pycache__
 node_modules
 dumps

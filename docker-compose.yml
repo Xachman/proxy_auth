@@ -15,3 +15,5 @@ services:
       - app:authhost
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    environment:
+      - AUTH_HOST=localhost:6005
